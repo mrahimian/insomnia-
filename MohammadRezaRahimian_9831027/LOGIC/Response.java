@@ -9,7 +9,6 @@ public class Response implements Serializable{
     public String responseMessage ;
     public String bodyResponse ;
     public String responseSize ;
-    public String contentType ;
     /**
      * show header
      * @param connection to connect
@@ -118,10 +117,6 @@ public class Response implements Serializable{
         }
         responseSize = size ;
         return size ;
-    }
-    public String getContentType(HttpURLConnection connection){
-        contentType = connection.getContentType();
-        return contentType;
     }
 
     @Override

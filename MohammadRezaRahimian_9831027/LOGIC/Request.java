@@ -7,7 +7,6 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.rmi.ConnectException;
 import java.util.*;
 
 
@@ -25,7 +24,6 @@ public class Request implements Serializable{
     public HashMap<String, String> headerToSend;
     public boolean addToList;
     String responseBody ;
-    public static boolean error = true;
 
     /**
      * call makeConnection method
@@ -95,7 +93,7 @@ public class Request implements Serializable{
      * make connection with server and call method
      */
     public void makeConnection(URL url , String method , boolean header , int post, boolean follow, HashMap<String, String> fooBody
-    , String json , File binaryFile , boolean saveToFile , File fileToSave , HashMap<String, String> headerToSend ,RightPanel rightPanel){
+    , String json , File binaryFile , boolean saveToFile , File fileToSave , HashMap<String, String> headerToSend ,RightPanel rightPanel ){
         try {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             if (follow && (connection.getResponseCode()/100 == 3)){
@@ -127,7 +125,7 @@ public class Request implements Serializable{
                     break;
             }
         } catch (UnknownHostException | NullPointerException e ){
-            error = false;
+
         } catch (IOException e){
             e.printStackTrace();
         }
@@ -331,7 +329,7 @@ public class Request implements Serializable{
             try {
                 response.bodyResponse = responseBody;
                 rightPanel.update(responseBody, response.showResponseCode(connection), response.showResponseMessage(connection), response.showResponseHeader(connection),
-                        response.getSize(connection),response.getContentType(connection));
+                        response.getSize(connection),connection.getContentType());
             } catch (IOException e) {
                 e.printStackTrace();
             }
